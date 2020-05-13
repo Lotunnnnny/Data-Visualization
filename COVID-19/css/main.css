@@ -1,0 +1,60 @@
+body {
+    background-color: lightsteelblue;
+    /*background-color: ;*/
+}
+
+p {
+    font-size: 1.2em;
+}
+
+#select_accumulated {
+    float: left;
+    margin-left: 550px;
+}
+
+#legend_group {
+    font-size: 2em;
+}
+
+#geo-chart {
+    margin-top: 0px;
+}
+
+#scroller {
+    font: 12px var(--sans-serif);
+    font-variant-numeric: tabular-nums;
+    display: flex;
+    height: 33px;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 530px;
+    opacity: 80%;
+}
+
+#button {
+    margin-right: 0.4em;
+    width: 5em;
+    font-size: 1.5em;
+
+}
+
+#label {
+    display: flex;
+    align-items: center;
+}
+
+#controller {
+    width: 180px;
+}
+
+#output {
+    margin-left: 0.4em;
+}
+
+select {
+    width: 200px;
+    height: 30px;
+    font-size: 1.5em;
+    margin-top: 20px;
+    margin-left: 10px;
+}

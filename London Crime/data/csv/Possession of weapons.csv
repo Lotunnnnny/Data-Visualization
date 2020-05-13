@@ -1,0 +1,34 @@
+id,zone_name,num
+1,City of London,0
+2,City of Westminster,22
+3,Kensington and Chelsea,8
+4,Hammersmith and Fulham,6
+5,Wandsworth,13
+6,Lambeth,24
+7,Southwark,16
+8,Tower Hamlets,25
+9,Hackney,26
+10,Islington,13
+11,Camden,9
+12,Brent,13
+13,Ealing,15
+14,Hounslow,15
+15,Richmond upon Thames,3
+16,Kingston upon Thames,7
+17,Merton,9
+18,Sutton,5
+19,Croydon,20
+20,Bromley,9
+21,Lewisham,18
+22,Greenwich,21
+23,Bexley,11
+24,Havering,9
+25,Barking and Dagenham,7
+26,Redbridge,13
+27,Newham,16
+28,Waltham Forest,24
+29,Haringey,27
+30,Enfield,10
+31,Barnet,12
+32,Harrow,7
+33,Hillingdon,11

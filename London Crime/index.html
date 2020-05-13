@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Description</title>
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <!--copy from d3 observable-->
+    <script src="javascripts/color-legend.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
+    <style type="text/css">
+        body {
+            padding-left: 200px;
+            padding-right: 200px;
+            text-align: justify;
+        }
+
+        .select {
+            margin-left: 20px;
+        }
+
+        .des {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+<div id="title">
+    <h1>Analysis on London Crimes: What Kinds of Crimes more likely Occur Here?</h1>
+    <h2>Student Number: 1924996</h2>
+</div>
+<div id="introduction">
+    <h3>Introduction</h3>
+    <p>
+        A crime only occurs out of some reasons. As offenders play an important role in a
+        crime’s occurrence, other environmental factors (e.g. custom, politics and economics) related to the
+        scene of a crime must also contribute to it. Therefore, it is reasonable to demonstrate crime data in
+        terms of blocks or zones (not necessarily being politically partitioned zones), and the police in
+        some boroughs could get a hint for ameliorating the crime situation, by comparison against another
+        boroughs with lesser rate of the concerned type of crimes.
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;To conclude, the problem of the project is to reveal how largely the environmental factors of
+        London can affect occurrences of crimes. In other words, is there any relation between types of
+        crimes and environments of areas where crimes happen? Since crime data in research is based on
+        time, the project also intends to show the trend of crime rates with respect to types of crimes across
+        several zones of London. If possible, London could be partitioned by grouping together
+        geographically adjacent areas with similar patterns of crime types.
+    </p>
+</div>
+<div id="data-set">
+    <h3>Data Set</h3>
+    <p>
+        The database in use was downloaded from <a href="https://data.police.uk/data/">DATA.POLICE.UK</a>. They are spatio-temporal data. The information
+        intended to be shown are: time (ordinal), zone (categorical), total number of crime of a zone (quantitative), type of crime(categorical),
+        number of crime of each type of each zone (quantitative).
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;Due to the limitation of computer resources, only a month of crime data was able to be preprocessed for analysis.
+        Since happening time of provided cases was recorded in terms of months, temporal dimension was lost during visualization and analysis.
+        Besides, the specific month was February 2020, which was the latest data we could obtain at this time point. During this month, there were 86984 cases of crime happening in the 32 boroughs
+        of Greater London, excluding city of london. However, there were only 85737 of them remaining after data cleaning because of missing
+        information.
+    </p>
+    <a>
+        &nbsp;&nbsp;&nbsp;&nbsp;Although raw data were classified by police force, there is no way for the public to find boundaries of administrative area of police forces.
+        In other words, we are unable to depict a map with geographical division with respect to police forces. To overcome this problem, I have made use of
+        <a href="https://data.police.uk/docs/">request-response API</a> of DATA.POLICE.UK. With downloaded crime record, python and selenium were used to request neighbourhood information of particular cases one by one,
+        and treat "neighbourhoods" as zones to perform simple statistical calculation. However, there are more than 600 street-level neighborhoods as specified by DATA.POLICE.UK.
+        No doubt that it is impractical to analyse on such a big category, which make it necessary to groups them into boroughs. And it was something having been implemented
+        during data pre-processing for the one-month data.
+    </p>
+</div>
+<div id="charts">
+    <h3>Visualization</h3>
+    <p>
+        There are two charts showing analysis on selected topics.
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;The first visualization model learnt from <a href="https://observablehq.com/@d3/stacked-to-grouped-bars">Stacked-to-Grouped-Bars</a>.
+        It was half finished and originally designed to show an overall view of what kinds of crimes that may happen most frequently in a specific area.
+        Upon this stacked histogram,x-axis represents the index of borough, complying with knowledge from <a href="https://en.wikipedia.org/wiki/London_boroughs">wikipedia</a>.
+        And y-axis is the number of different types of criminal cases, shown by sequential colors which is not part of design.
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;The second one is a map of London divided by boroughs, with color scales showing comparison of the number of crimes across boroughs.
+        the darker an area is, the more crimes happened. With cursor hovering, the specific data along with borough name would appear.
+        The left-top dropdown controls type of showing crime data. It learnt from the open-source project <a href="https://observablehq.com/@d3/choropleth">Choropleth</a>, and boundary file of London was obtained from
+        <a href="https://data.london.gov.uk/dataset/statistical-gis-boundary-files-london?resource=9ba8c833-6370-4b11-abdc-314aa020d5e0">Greater London Authority (GLA)</a>.
+    </p>
+</div>
+<div id="results">
+    <h3>Results and Summary</h3>
+    <p>
+        For Figure 1, edges between every two bands in one bar were unclear, which made it hard to tell which represents what crime type.
+        However, we may still spot some evident comparison between borough 2 and any other boroughs. Since a stacked bar demonstrates the total
+        number of data, this situation suggests that crimes are more easily to happen in borough 2 which stands for Westminster, regardless of
+        type of crimes. Still, there are two color bands in bar "Westminster" with prominent lengths, which is supposed to tell what types of crimes
+        are more likely to happen compared with other crime types. For the reason of low completeness, we cannot tell any conclusion other than
+        some clues from this chart.
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;Upon Figure 2, map was projected from GeoJson, divided into 33 areas and including 32 boroughs and the city of London.
+        Since data provided by metropolitan police service only contains crimes in London boroughs, the number of crimes of the city of London in the middle of the map
+        always appear to be zero.
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;Let's first take a look at all crimes, we can see Westminster contributes to 7000 out of 80,000 cases to this
+        month's crimes. And it is almost double as many as Camden with second highest crime rates. Except "vehicle crime"
+        and "other crime", Westminster always has top two levels of crime number.
+        For anti-social behaviour, crimes are more likely to occur in Westminster and Tower Hamlets, each counting to
+        around 1000 cases per month. Burglary occurs more in outskirt with exception of a center of London, Westminster.
+        Drugs appear more in inner London, but has high occurrence in Croydon in comparison with other suburbs. "Other theft"
+        occurs 1737 times in Westminster, almost 5 to 6 times more than other boroughs, which makes it like a special crime type
+        set up for Westminster. Similar for "theft from the person". Vehicle crimes happen more in Enfield and Croydon, the northernmost
+        and southernmost boroughs in Greater London. Violence and sexual offences seems to appear everywhere and a large proportion
+        of areas witness 500 cases in this month.
+        Among all, "bicycle theft", "possession of weapons" and "other crime" have no more than 100 cases for each borough, which
+        characterize them as less-likely-happen crime types.
+    </p>
+</div>
+<div id="discussion">
+    <h3>Discussion</h3>
+    <p>
+        To summarise the results, Westminster is like a cradle for many crimes. It is reasonable because it is an place of interest appealing
+        to hundreds of tourists, which provide premises for crimes like theft. In addition, burglary and Vehicle crimes are more likely to
+        happen in outskirt, which is also understandable because there are less people and more vehicles as transport tools. We also need
+        to be cautious about places with high rate of particular crimes, even though we may not know the direct relation between
+        them for the time being. After all, we should not only aim at showing data but getting hints from data.
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;This project is designed to reveal relation between environments and crime types. It
+        shows crimes across boroughs and crime types, which may provide clues for the relation but not specify it. However,
+        it is hard to tell what exact relation they have merely from data. More researches may need to be performed to justify or
+        refute those hints.
+    </p>
+</div>
+<div id="conclusion">
+    <h3>Conclusion</h3>
+    <p>
+        Simulation and data visualisation is not only about the way of modeling and showing, but also about the data it self.
+        A good data set is the base for visualisation, which convinced me when I was working on this coursework.
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;Data collection was considered to be a real challenge for this project because some important information
+        of raw data was missing or not provided properly. In this case, a lot of pre-processing work required to be performed to
+        obtain proper and accurate data set.
+    </p>
+    <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;As far as I am concerned, this project can be improved by completing Chart 1 via using distinct colors
+        or icons to specify different crime types. Second, ranking data for Chart 2 could be implemented so that we could have a
+        more intuitive impression for where is more likely to happen such type of crimes compared with other areas. It may not be included
+        into concerned topics, it is still good to perform such a function. Last but not least, temporal information could be added in the
+        future if computing resources permitted, such that we could see changes of crimes rates of specific crime types in specific areas.
+    </p>
+</div>
+<div id="references">
+    <h3>References</h3>
+    <p>
+        [1] Cozens, P.M., Saville, G., & Hillier, D. (2005). Crime Prevention Through Environmental
+        Design (CPTED): A Review and Modern Bibliography. Journal of Property Management.
+        Volume 23, Issue 5, pp328-356.
+    </p>
+    <p>
+        [2] Jeffery, C.R. (1971). Crime Prevention Through Environmental Design. Beverly Hill, CA:
+        Sage.
+    </p>
+    <p>
+        [3] Kim, S., Lagrange, R., & Willis, C. (2013). Place and Crime: Integrating Sociology of Place
+        and Environmental Criminology. Urban Affairs Review, 49(1), 141-155
+    </p>
+</div>
+<script src="javascripts/main_uk.js"></script>
+<script>
+    // setTimeout(function(){ location.reload(); }, 10000);
+    show_chart_1()
+    function show_chart_1() {
+        // data set
+        count = 0;
+
+        function bumps(m) {
+            var values = [
+                // template
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Anti-social behaviour
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Bicycle theft
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Burglary
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Criminal damage and arson
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Drugs
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Other theft
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Possession of weapons
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Public order
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Robbery
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Shoplifting
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Theft from the person
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Vehicle crime
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Violence and sexual offences
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],  // Other crime
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]   // All crime
+            ];
+            values = [[0, 1110, 432, 387, 471, 734, 641, 998, 630, 543, 816, 671, 659, 475, 215, 229, 233, 274, 635, 381, 487, 462, 283, 316, 318, 505, 679, 572, 606, 620, 583, 367, 570], [0, 93, 36, 63, 48, 35, 104, 77, 75, 65, 84, 15, 30, 24, 37, 16, 12, 13, 10, 3, 17, 10, 4, 10, 11, 6, 36, 41, 19, 11, 11, 4, 13], [0, 367, 179, 172, 203, 192, 202, 188, 185, 180, 210, 224, 238, 160, 128, 134, 131, 132, 202, 262, 206, 165, 147, 168, 140, 233, 173, 176, 140, 306, 280, 170, 199], [0, 177, 66, 92, 115, 167, 181, 222, 131, 108, 127, 178, 150, 133, 77, 72, 69, 82, 194, 121, 162, 154, 130, 118, 102, 111, 177, 140, 123, 129, 165, 66, 144], [0, 228, 66, 80, 148, 184, 150, 200, 121, 149, 205, 97, 145, 109, 31, 67, 71, 39, 225, 86, 93, 119, 48, 59, 107, 118, 215, 150, 131, 90, 66, 63, 88], [0, 1737, 353, 214, 227, 396, 424, 334, 361, 393, 806, 256, 247, 201, 111, 100, 106, 94, 256, 171, 198, 214, 148, 140, 153, 202, 350, 201, 211, 211, 284, 136, 273], [0, 22, 8, 6, 13, 24, 16, 25, 26, 13, 9, 13, 15, 15, 3, 7, 9, 5, 20, 9, 18, 21, 11, 9, 7, 13, 16, 24, 27, 10, 12, 7, 11], [0, 246, 83, 102, 144, 146, 174, 143, 138, 166, 164, 144, 136, 119, 73, 57, 58, 70, 182, 92, 150, 114, 81, 94, 72, 76, 140, 90, 109, 111, 117, 72, 116], [0, 314, 95, 70, 46, 101, 164, 90, 182, 175, 182, 106, 74, 44, 30, 16, 32, 34, 84, 57, 91, 71, 36, 37, 72, 57, 184, 68, 183, 150, 147, 60, 47], [0, 358, 110, 111, 94, 107, 73, 78, 66, 139, 141, 108, 115, 85, 42, 56, 52, 82, 155, 213, 117, 150, 118, 119, 71, 151, 199, 93, 162, 80, 138, 70, 158], [0, 1391, 122, 66, 60, 148, 240, 119, 268, 343, 522, 76, 50, 39, 14, 37, 22, 13, 38, 22, 48, 38, 15, 45, 42, 89, 203, 79, 111, 51, 77, 37, 36], [0, 405, 211, 226, 327, 273, 309, 305, 278, 214, 253, 428, 377, 316, 209, 103, 202, 205, 524, 387, 312, 344, 247, 272, 228, 417, 333, 354, 399, 624, 536, 281, 359], [0, 858, 363, 413, 536, 701, 695, 699, 607, 505, 538, 649, 710, 631, 225, 312, 284, 366, 808, 534, 657, 664, 429, 418, 471, 541, 705, 573, 641, 591, 555, 365, 572], [0, 24, 6, 13, 24, 27, 23, 26, 28, 30, 18, 19, 23, 32, 7, 7, 15, 15, 33, 22, 15, 35, 11, 21, 16, 17, 29, 27, 19, 31, 14, 14, 62], [0, 7330, 2130, 2015, 2456, 3235, 3396, 3504, 3096, 3023, 4075, 2984, 2969, 2383, 1202, 1213, 1296, 1424, 3366, 2360, 2571, 2561, 1708, 1826, 1810, 2536, 3439, 2588, 2881, 3015, 2985, 1712, 2648]];
+            if (count < m)
+                return values[count++];
+        }
+
+        margin = ({top: 50, right: 100, bottom: 50, left: 100});
+
+        height = 400;
+        width = 954;
+        m = 33; // number of boroughs
+        n = 14; // number of crime categories
+
+        xz = d3.range(m); // the x-values shared by all series
+        yz = d3.range(n).map(() => bumps(m)); // the y-values of each of the n series
+        y01z = d3.stack()
+            .keys(d3.range(n))
+            (d3.transpose(yz)) // stacked yz
+            .map((data, i) => data.map(([y0, y1]) => [y0, y1, i]));
+        yMax = d3.max(yz, y => d3.max(y));
+        y1Max = d3.max(y01z, y => d3.max(y, d => d[1]));
+
+        x = d3.scaleBand()
+            .domain(xz)
+            .rangeRound([margin.left, width - margin.right])
+            .padding(0.08);
+
+        xAxis = svg => svg.append("g")
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+            .call(d3.axisBottom(x).tickSizeOuter(0).tickFormat((d, i) => i+1));
+
+        y = d3.scaleLinear()
+            .domain([0, y1Max])
+            .range([height - margin.bottom, margin.top]);
+
+        z = d3.scaleSequential(d3.interpolateBlues)
+            .domain([-1.5 * n, 1.5 * n]);
+
+        layout = 'stacked';
+
+        const svg = d3.select('#charts').append('svg')
+            .attr("viewBox", [0, 0, width, height]);
+
+        const rect = svg.selectAll("g")
+            .data(y01z)
+            .join("g")
+            .attr("fill", (d, i) => z(i))
+            .selectAll("rect")
+            .data(d => d)
+            .join("rect")
+            .attr("x", (d, i) => x(i))
+            .attr("y", height - margin.bottom)
+            .attr("width", x.bandwidth())
+            .attr("height", 0);
+
+        svg.append("g")
+            .call(xAxis);
+
+        function transitionGrouped() {
+            y.domain([0, yMax]);
+
+            rect.transition()
+                .duration(500)
+                .delay((d, i) => i * 20)
+                .attr("x", (d, i) => x(i) + x.bandwidth() / n * d[2])
+                .attr("width", x.bandwidth() / n)
+                .transition()
+                .attr("y", d => y(d[1] - d[0]))
+                .attr("height", d => y(0) - y(d[1] - d[0]));
+        }
+
+        function transitionStacked() {
+            y.domain([0, y1Max]);
+
+            rect.transition()
+                .duration(500)
+                .delay((d, i) => i * 20)
+                .attr("y", d => y(d[1]))
+                .attr("height", d => y(d[0]) - y(d[1]))
+                .transition()
+                .attr("x", (d, i) => x(i))
+                .attr("width", x.bandwidth());
+        }
+
+        function update(layout) {
+            if (layout === "stacked") transitionStacked();
+            else transitionGrouped();
+        }
+
+        update(layout);
+    }
+</script>
+</body>
+</html>
